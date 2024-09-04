@@ -14,7 +14,7 @@ make
 ### Retrieving our coreboot port for the ODROID H4
 ```console
 cd coreboot/
-git fetch https://review.coreboot.org/coreboot refs/changes/79/83979/3 && git checkout -b change-83979 FETCH_HEAD
+git fetch https://review.coreboot.org/coreboot refs/changes/15/84215/1 && git checkout -b change-84215 FETCH_HEAD
 ```
 
 ### Configuring coreboot
