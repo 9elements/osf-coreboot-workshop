@@ -2,6 +2,7 @@
 
 ## Relevant web resources
 
+- [Slides](https://docs.google.com/presentation/d/1QNJYRkoYZDvO7Ew9f9q_78DF1Lv541H7GET_inFBJuw/edit#slide=id.g28507ff9567_0_6)
 - [ODROID H4 Wiki](https://wiki.odroid.com/odroid-h4/start)
 - [coreboot documentation](https://doc.coreboot.org/)
 
