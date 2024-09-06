@@ -40,14 +40,22 @@ git fetch https://review.coreboot.org/coreboot refs/changes/15/84215/1 && git ch
 ```
 
 Before starting the configuration, extract the relevant Flash regions using [ifdtool](https://doc.coreboot.org/util/ifdtool/binary_extraction.html).
+The extracted soc information will be saved to your local working directory.
+
+<details>
+<summary>Intel FDT</summary>
+The Intel Flash Descriptor (IFD) defines offsets and sizes of various regions of the flash.
+It is used to define coreboots flashmap, which describes partitions on the flash chip.
+For further details refer to the [official coreboot documentation](https://review.coreboot.org/plugins/gitiles/coreboot/+/0cd098e4e41d6bb3b27327d4a6526bd7004bfc77/Documentation/ifdtool/layout.md).
+</details>
 
 ```
 /path/to/ifdtool -x /path/to/ODROID-H4-PLUS-1.rom
 ```
 
 If you have built QEMU before, you should run `make distclean` before configuring the new target.
-For configuration, except for selecting the motherboard and including the IFD and ME flashregion,
-the default configuration is sufficient to boot the board.
+For configuration, select "Hardkernel" as the mainboard vendor and include the IFD and ME flash region via the config menu by their file path.
+All other default configurations are sufficient to boot the board.
 
 ## Flash H4+ coreboot firmware
 
