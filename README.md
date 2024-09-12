@@ -36,7 +36,7 @@ For detailed instructions on how to read the flash chip, please refer to the [pi
 
 The patches to support the board are currently wip and must be obtained from coreboot gerrit:
 ```
-git fetch https://review.coreboot.org/coreboot refs/changes/15/84215/1 && git checkout -b change-84215 FETCH_HEAD
+git fetch https://review.coreboot.org/coreboot refs/changes/79/83979/10 && git checkout -b change-83979 FETCH_HEAD
 ```
 
 Before starting the configuration, extract the relevant Flash regions using [ifdtool](https://doc.coreboot.org/util/ifdtool/binary_extraction.html).
