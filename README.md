@@ -53,13 +53,36 @@ For further details refer to the [official coreboot documentation](https://revie
 /path/to/ifdtool -x /path/to/ODROID-H4-PLUS-1.rom
 ```
 
-If you have built QEMU before, you should run `make distclean` before configuring the new target.
-For configuration, select "Hardkernel" as the mainboard vendor and include the IFD and ME flash region via the config menu by their file path.
+The command above should dump the neccessary binaries into your current directory. The files will be called something like "flashregion_*_*.bin". Now we need to tell coreboot where the binaries are.
+
+If you have built another mainboard before (e.g. QEMU), you should run `make distclean` before configuring the new target.
+For configuration start `make menuconfig`, select "Hardkernel" as the mainboard vendor and include the IFD (Flash descriptor) and ME (Management Engine) flash region via the config menu by their file path.
+IFD make menuconfig path: "Chipset/Add Intel descriptor.bin file".
+After enabling the option a new option should appear which needs a file path to the "flashregion\_0\_flashdescripttor.bin" file
+ME make menuconfig path: "Chipset/Add Intel ME/TXE firmware"
+After enabling the option a new option should appear which needs a file path to the "flashregion\_2\_intel\_me.bin" file
+
+### Select Payload (EDK2-Payload)
+
+In the menuconfig choose: `Payload/Payload to add/edk2 Payload`
+In the menuconfig choose: `Payload/Tianocore's EDK 2 payload/edk2 Payload`
+In the menuconfig Insert `edk2-stable202408` into: `Payload/Payload to add/Insert a commits SHA-1 or a branch name`
+
 All other default configurations are sufficient to boot the board.
 
 ## Flash H4+ coreboot firmware
 
-You've already read the flash. I'm sure you know the drill. :)
+```
+./flashprog -p serprog:dev=/dev/ttyACM2 -w PATH/TO/COREBOOT/build/coreboot.rom
+```
+Now disconnect the flash clip.
+
+### Connect UART pins
+
+The GPIO pin assignment of our target hardware can be found here:
+[ODROID Wiki: H4 I/O Expansion GPIO MAP](https://wiki.odroid.com/odroid-h4/hardware/io_expansion_gpio)
+
+Use a tree jumper cable to connect GND and RX to TX and vice versa.
 
 ## Boot coreboot
 
@@ -70,25 +93,25 @@ Use the software of your choice to connect to it. e.g:
 ```
 <tio/picocom> -b 115200 /dev/serial/by-id/usb-9elements_Picoprog_OSFC2024-if02
 ```
-
-### Connect UART pins
-
-The GPIO pin assignment of our target hardware can be found here:
-[ODROID Wiki: H4 I/O Expansion GPIO MAP](https://wiki.odroid.com/odroid-h4/hardware/io_expansion_gpio)
-
-Use a tree jumper cable to connect GND and RX to TX and vice versa.
+or
+```
+cu -l /dev/serial/by-id/usb-9elements_Picoprog_OSFC2024-if02 -s 115200
+```
 
 ### Verify UART Communication
 
-We have pre-installed a Linux system with the serial console enabled by default. To test if the
-UART communication is working, you should first boot the system and check. But wait, we already
-flashed the coreboot, right? This is where the secondary flash chip comes in handy. Use a jumper
-to connect the pins to select it and boot the Linux system. The login credentials are `root:osf`.
+We have live ubuntu Linux system with the serial console enabled by default on USB sticks. To test if the
+UART communication is working, you should first boot the system and check. You should see coreboot logs as well as Linux ubuntu logs and a console to login into.
+
+### Operating System
+
+If you have the USB stick attached to the odroid, you should see a ubuntu live iso image booting up.
+Congratulations you have successfully compiled, flashed and booted Firmware.
 
 ## Going Further
 
-Once you have successfully reached the coreboot payload stage, you are ready to begin your
-adventures. Try out different payloads or play around with the configuration options. Of course, you
-can also look at the code and poke around. Just be careful with the internal GPIO related
-configuration as a misconfiguration could potentially brick the hardware. If you run out of ideas,
-just ask the staff. They might know something you can try out.
+Now you can either go free style or try to solve some of the challenges that we have prepared. You could for example poke around with the code and the configuration options. Just be careful with the internal GPIO related configuration as a misconfiguration could potentially brick the hardware. If you run out of ideas, just ask the staff. They might know something you can try out.
+
+### Challenges
+
+TODO
