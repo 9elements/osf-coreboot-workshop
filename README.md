@@ -2,14 +2,8 @@
 
 ## Relevant web resources
 
-- [Slides](https://docs.google.com/presentation/d/1QNJYRkoYZDvO7Ew9f9q_78DF1Lv541H7GET_inFBJuw/edit#slide=id.g28507ff9567_0_6)
 - [ODROID H4 Wiki](https://wiki.odroid.com/odroid-h4/start)
 - [coreboot documentation](https://doc.coreboot.org/)
-
-## Getting started with coreboot on QEMU
-
-The coreboot documentation provides a tutorial on how to [start from scratch](https://doc.coreboot.org/tutorial/part1.html#tutorial-part-1-starting-from-scratch).
-Follow the instructions there and try to boot QEMU with coreboot as firmware.
 
 ## Read H4+ vendor firmware
 
@@ -34,11 +28,6 @@ For detailed instructions on how to read the flash chip, please refer to the [pi
 
 ## Build coreboot for ODROID H4
 
-The patches to support the board are currently wip and must be obtained from coreboot gerrit:
-```
-git fetch https://review.coreboot.org/coreboot refs/changes/79/83979/10 && git checkout -b change-83979 FETCH_HEAD
-```
-
 Before starting the configuration, extract the relevant Flash regions using [ifdtool](https://doc.coreboot.org/util/ifdtool/binary_extraction.html).
 The extracted soc information will be saved to your local working directory.
 
@@ -55,18 +44,18 @@ For further details refer to the [official coreboot documentation](https://revie
 
 The command above should dump the neccessary binaries into your current directory. The files will be called something like "flashregion_*_*.bin". Now we need to tell coreboot where the binaries are.
 
-If you have built another mainboard before (e.g. QEMU), you should run `make distclean` before configuring the new target.
-For configuration start `make menuconfig`, select "Hardkernel" as the mainboard vendor and include the IFD (Flash descriptor) and ME (Management Engine) flash region via the config menu by their file path.
-IFD make menuconfig path: "Chipset/Add Intel descriptor.bin file".
-After enabling the option a new option should appear which needs a file path to the "flashregion\_0\_flashdescripttor.bin" file
-ME make menuconfig path: "Chipset/Add Intel ME/TXE firmware"
-After enabling the option a new option should appear which needs a file path to the "flashregion\_2\_intel\_me.bin" file
+If you have built another mainboard before (e.g. QEMU), you should run `make distclean` before configuring the new target.  
+For configuration start `make menuconfig`, select "Hardkernel" as the mainboard vendor and include the IFD (Flash descriptor) and ME (Management Engine) flash region via the config menu by their file path.  
+IFD make menuconfig path: "Chipset/Add Intel descriptor.bin file".  
+After enabling the option a new option should appear which needs a file path to the "flashregion\_0\_flashdescripttor.bin" file  
+ME make menuconfig path: "Chipset/Add Intel ME/TXE firmware"  
+After enabling the option a new option should appear which needs a file path to the "flashregion\_2\_intel\_me.bin" file  
 
 ### Select Payload (EDK2-Payload)
 
-In the menuconfig choose: `Payload/Payload to add/edk2 Payload`
-In the menuconfig choose: `Payload/Tianocore's EDK 2 payload/edk2 Payload`
-In the menuconfig Insert `edk2-stable202408` into: `Payload/Payload to add/Insert a commits SHA-1 or a branch name`
+In the menuconfig choose: `Payload/Payload to add/edk2 Payload`  
+In the menuconfig choose: `Payload/Tianocore's EDK 2 payload/edk2 Payload`  
+In the menuconfig Insert `edk2-stable202408` into: `Payload/Payload to add/Insert a commits SHA-1 or a branch name`  
 
 All other default configurations are sufficient to boot the board.
 
